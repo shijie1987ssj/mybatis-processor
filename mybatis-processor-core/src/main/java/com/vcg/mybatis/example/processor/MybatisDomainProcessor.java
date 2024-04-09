@@ -24,6 +24,8 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.MirroredTypeException;
+import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.persistence.*;
 import javax.tools.Diagnostic;
@@ -239,8 +241,8 @@ public class MybatisDomainProcessor extends AbstractProcessor {
             }
 
             Convert annotation = member.getAnnotation(Convert.class);
-            if (annotation != null && TypeHandler.class.isAssignableFrom(annotation.converter())) {
-                String typeHandler = annotation.converter().getName();
+            if (annotation != null) {
+                String typeHandler = getClassFromAnnotationV2(member);
                 columnMetadata.setTypeHandler(typeHandler);
             }
 
@@ -263,7 +265,16 @@ public class MybatisDomainProcessor extends AbstractProcessor {
         return tableMetadata.setColumns(columns);
     }
 
-
+    private String getClassFromAnnotationV2(Element key) {
+        try {
+            key.getAnnotation(Convert.class).converter().getName();
+        } catch (MirroredTypeException e) {
+            TypeMirror typeMirror = e.getTypeMirror();
+            return typeMirror.toString();
+        }
+        return null;
+    }
+    
     public QueryMetadata readQueryMetadata(Element element) {
         Elements elementUtils = processingEnv.getElementUtils();
 
