@@ -122,3 +122,7 @@ List<Comment> comments = commentRepository.selectByExample(query);
     Comment comment = commentRepository.selectByPrimaryKey(1);
     System.err.println(comment);
 ```
+
+打包
+
+[![](https://jitpack.io/v/shijie1987ssj/mybatis-processor.svg)](https://jitpack.io/#shijie1987ssj/mybatis-processor)
