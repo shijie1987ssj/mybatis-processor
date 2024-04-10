@@ -1,15 +1,10 @@
 package com.vcg.mybatis.example.processor;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.stream.Collectors;
-
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
+import com.vcg.mybatis.example.processor.annotation.Criterion;
 import com.vcg.mybatis.example.processor.annotation.ExampleQuery;
-import com.vcg.mybatis.example.processor.annotation.*;
 import com.vcg.mybatis.example.processor.domain.*;
 import com.vcg.mybatis.example.processor.util.CamelUtils;
 import com.vcg.mybatis.example.processor.visitor.DomainTypeVisitor;
@@ -32,8 +27,10 @@ import javax.tools.Diagnostic;
 import javax.tools.FileObject;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardLocation;
-
-import org.apache.ibatis.type.TypeHandler;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @SupportedAnnotationTypes("com.vcg.mybatis.example.processor.Example")
 public class MybatisDomainProcessor extends AbstractProcessor {
@@ -274,7 +271,7 @@ public class MybatisDomainProcessor extends AbstractProcessor {
         }
         return null;
     }
-    
+
     public QueryMetadata readQueryMetadata(Element element) {
         Elements elementUtils = processingEnv.getElementUtils();
 

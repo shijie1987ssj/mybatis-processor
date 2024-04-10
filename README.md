@@ -7,8 +7,8 @@ mybatis-processor 该工具是用于在编译阶段自动生成mybatis 的Exampl
 
  <dependency>
       <artifactId>mybatis-processor-core</artifactId>
-      <groupId>io.github.wu191287278</groupId>
-      <version>2.2.2</version>
+      <groupId>com.github.shijie1987ssj</groupId>
+      <version>2.4.2.2</version>
 </dependency>
 
 maven 编译插件:
