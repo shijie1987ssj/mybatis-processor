@@ -241,7 +241,7 @@ public class MybatisDomainProcessor extends AbstractProcessor {
 
             Convert annotation = member.getAnnotation(Convert.class);
             if (annotation != null) {
-                String typeHandler = annotation.converter().getName();
+                String typeHandler = annotation.attributeName();
                 columnMetadata.setTypeHandler(typeHandler);
             }
 
