@@ -398,7 +398,7 @@ public class {{metadata.exampleClazzSimpleName}} implements Serializable {
     {{/stringType}}
 {{/metadata.columnMetadataList}}
 
-    private Criteria getCriteria(){
+    public Criteria getCriteria(){
         if(this.currentCriteria == null){
             this.currentCriteria = new Criteria();
             getOredCriteria().add(this.currentCriteria);
@@ -439,6 +439,13 @@ public class {{metadata.exampleClazzSimpleName}} implements Serializable {
                 throw new RuntimeException("Value for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value));
+        }
+
+        protected void addCriterionReverse(Object value, String condition, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            criteria.add(new Criterion(condition, value, null, true));
         }
 
         protected void addCriterion(String condition, Object value1, Object value2, String property) {
@@ -595,6 +602,11 @@ public class {{metadata.exampleClazzSimpleName}} implements Serializable {
         protected Criteria() {
             super();
         }
+
+        @Override
+        public void addCriterionReverse(Object value, String condition, String property) {
+            super.addCriterionReverse(value, condition, property);
+        }
     }
 
     public static class Criterion implements Serializable {
@@ -610,6 +622,8 @@ public class {{metadata.exampleClazzSimpleName}} implements Serializable {
         private boolean noValue;
 
         private boolean singleValue;
+
+        private boolean singleValueReverse;
 
         private boolean betweenValue;
 
@@ -639,6 +653,24 @@ public class {{metadata.exampleClazzSimpleName}} implements Serializable {
                 this.listValue = true;
             } else {
                 this.singleValue = true;
+            }
+            if (value instanceof Date) {
+                this.dateValue = true;
+            }
+        }
+        protected Criterion(String condition, Object value, String typeHandler, boolean isReverse) {
+            super();
+            this.condition = condition;
+            this.value = value;
+            this.typeHandler = typeHandler;
+            if (value instanceof List<?>) {
+                this.listValue = true;
+            } else {
+                if (isReverse) {
+                    this.singleValueReverse = true;
+                } else {
+                    this.singleValue = true;
+                }
             }
             if (value instanceof Date) {
                 this.dateValue = true;
